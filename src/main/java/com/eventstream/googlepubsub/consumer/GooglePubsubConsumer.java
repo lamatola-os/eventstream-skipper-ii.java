@@ -13,13 +13,13 @@ import org.slf4j.LoggerFactory;
 import java.io.FileInputStream;
 import java.util.concurrent.TimeUnit;
 
-class Config {
+class ConsumerConfig {
 
     public String projectId;
     public String consumerName;
     public String credentials;
 
-    public Config(String projectId, String consumerName, String credentials) {
+    public ConsumerConfig(String projectId, String consumerName, String credentials) {
         this.projectId = projectId;
         this.consumerName = consumerName;
         this.credentials = credentials;
@@ -31,16 +31,21 @@ public class GooglePubsubConsumer {
     private static final Logger logger = LoggerFactory.getLogger(GooglePubsubConsumer.class);
 
     public static void main(String[] args) throws Exception {
-        String projectId = "customer-support-610a3";
-        String subscriberId = "orders-streaming-consumer";
-        ProjectSubscriptionName subsciptionName = ProjectSubscriptionName.of(projectId, subscriberId);
+        final var config = new ConsumerConfig(
+                "customer-support-610a3",
+                "orders-streaming-consumer",
+                "src/main/resources/credentials.json"
+        );
+
+        ProjectSubscriptionName subsciptionName = ProjectSubscriptionName.of(config.projectId, config.consumerName);
         Subscriber.Builder builder = Subscriber.newBuilder(subsciptionName, new OurReceiver());
 
-        GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream("src/main/resources/credentials.json"));
+        GoogleCredentials credentials = GoogleCredentials.fromStream(
+                new FileInputStream(config.credentials));
         builder.setCredentialsProvider(FixedCredentialsProvider.create(credentials));
         Subscriber subscriber = builder.build();
 
-        logger.info("starting " + subscriberId);
+        logger.info("starting " + config.consumerName);
         subscriber.startAsync().awaitRunning();
 
         subscriber.awaitTerminated(10000000, TimeUnit.MILLISECONDS);

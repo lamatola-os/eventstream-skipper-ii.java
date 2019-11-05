@@ -11,28 +11,50 @@ import com.google.pubsub.v1.PubsubMessage;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+class PublisherConfig {
+
+    public String projectId;
+    public String streamName;
+    public String credentials;
+
+    public PublisherConfig(String projectId, String streamName, String credentials) {
+        this.projectId = projectId;
+        this.streamName = streamName;
+        this.credentials = credentials;
+    }
+}
 
 public class GooglePubsubEmitter {
 
     public static void main(String[] args) {
-        ProjectTopicName topicName = ProjectTopicName.of("customer-support-610a3", "orders-streaming");
+
+        final var config = new PublisherConfig(
+                "customer-support-61013",
+                "orders-streaming",
+                "src/main/resources/credentials.json"
+        );
+
+        final List<String> events = List.of("event-1", "event-2");
+
+        final ProjectTopicName topicName =
+                ProjectTopicName.of(config.projectId, config.streamName);
+
         Publisher publisher = null;
         List<ApiFuture<String>> messageIdFutures = new ArrayList<>();
 
         try {
 
-            GoogleCredentials credentials = GoogleCredentials.fromStream(new FileInputStream("src/main/resources/credentials.json"));
+            GoogleCredentials credentials = GoogleCredentials.fromStream(
+                    new FileInputStream(config.credentials));
 
             publisher = Publisher.newBuilder(topicName)
                     .setCredentialsProvider(FixedCredentialsProvider.create(credentials))
                     .build();
 
-            List<String> messages = Arrays.asList("event1", "event2");
-
-            for (String message : messages) {
+            for (String message : events) {
                 ByteString data = ByteString.copyFromUtf8(message);
                 PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data).build();
 
@@ -45,6 +67,7 @@ public class GooglePubsubEmitter {
         } finally {
             List<String> messageIds = null;
             try {
+                System.out.println("Waiting for acks");
                 messageIds = ApiFutures.allAsList(messageIdFutures).get();
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
@@ -57,6 +80,7 @@ public class GooglePubsubEmitter {
             if (publisher != null) {
                 // When finished with the publisher, shutdown to free up resources.
                 try {
+                    System.out.println("Shutting down publisher for " + publisher.getTopicName());
                     publisher.shutdown();
                 } catch (Exception e) {
                     e.printStackTrace();
