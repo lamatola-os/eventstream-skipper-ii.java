@@ -9,18 +9,24 @@
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
+            <scope>provided</scope>
+        </dependency>
 
-<!--        https://mvnrepository.com/artifact/com.google.cloud/google-cloud-pubsub-->
+<!--        https://mvnrepository.com/artifact/com.google.cloud/google-cloud-pubsub -->
         <dependency>
             <groupId>com.google.cloud</groupId>
             <artifactId>google-cloud-pubsub</artifactId>
-            <version>0.48.0-beta</version>
+            <version>1.113.5</version>
         </dependency>
 
         <dependency>
             <groupId>com.google.cloud</groupId>
             <artifactId>google-cloud-logging-logback</artifactId>
-            <version>0.39.0-alpha</version>
+            <version>0.121.3-alpha</version>
         </dependency>
 
     </dependencies>
