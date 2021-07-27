@@ -1,24 +1,65 @@
 package com.eventstream.googlepubsub.emitter;
 
+import com.eventstream.googlepubsub.util.Util;
+
+import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class EmitterApp {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
 
         final var config = new PublisherConfig(
                 "customer-support-61013",
                 "orders-streaming",
                 "src/main/resources/credentials.json"
         );
-        GooglePubsubEmitter googlePubsubEmitter = new GooglePubsubEmitter(config);
+
+        final GooglePubsubEmitter googlePubsubEmitter = new GooglePubsubEmitter(config);
 
         final List<String> events = List.of(
                 "{\"eventType\" : \"event-1\", \"desc\":\"ignoreme1\"}",
-                "{\"eventType\" : \"event-2\", \"desc\":\"ignoreme2\"}"
+                "{\"eventType\" : \"event-2\", \"desc\":\"ignoreme2\"}",
+                "{\"eventType\" : \"event-3\", \"desc\":\"ignoreme3\"}",
+                "{\"eventType\" : \"event-4\", \"desc\":\"ignoreme4\"}",
+                "{\"eventType\" : \"event-5\", \"desc\":\"ignoreme5\"}",
+                "{\"eventType\" : \"event-6\", \"desc\":\"ignoreme6\"}",
+                "{\"eventType\" : \"event-7\", \"desc\":\"ignoreme7\"}",
+                "{\"eventType\" : \"event-8\", \"desc\":\"ignoreme8\"}",
+                "{\"eventType\" : \"event-9\", \"desc\":\"ignoreme9\"}",
+                "{\"eventType\" : \"event-10\", \"desc\":\"ignoreme10\"}",
+                "{\"eventType\" : \"event-11\", \"desc\":\"ignoreme11\"}",
+                "{\"eventType\" : \"event-12\", \"desc\":\"ignoreme12\"}",
+                "{\"eventType\" : \"event-13\", \"desc\":\"ignoreme13\"}",
+                "{\"eventType\" : \"event-14\", \"desc\":\"ignoreme14\"}",
+                "{\"eventType\" : \"event-15\", \"desc\":\"ignoreme15\"}",
+                "{\"eventType\" : \"event-16\", \"desc\":\"ignoreme16\"}",
+                "{\"eventType\" : \"event-17\", \"desc\":\"ignoreme17\"}",
+                "{\"eventType\" : \"event-18\", \"desc\":\"ignoreme18\"}",
+                "{\"eventType\" : \"event-19\", \"desc\":\"ignoreme19\"}",
+                "{\"eventType\" : \"event-20\", \"desc\":\"ignoreme20\"}",
+                "{\"eventType\" : \"event-21\", \"desc\":\"ignoreme21\"}",
+                "{\"eventType\" : \"event-22\", \"desc\":\"ignoreme22\"}",
+                "{\"eventType\" : \"event-23\", \"desc\":\"ignoreme23\"}",
+                "{\"eventType\" : \"event-24\", \"desc\":\"ignoreme24\"}",
+                "{\"eventType\" : \"event-25\", \"desc\":\"ignoreme25\"}",
+                "{\"eventType\" : \"event-26\", \"desc\":\"ignoreme26\"}",
+                "{\"eventType\" : \"event-27\", \"desc\":\"ignoreme28\"}",
+                "{\"eventType\" : \"event-28\", \"desc\":\"ignoreme28\"}",
+                "{\"eventType\" : \"event-29\", \"desc\":\"ignoreme29\"}",
+                "{\"eventType\" : \"event-30\", \"desc\":\"ignoreme30\"}",
+                "{\"eventType\" : \"event-31\", \"desc\":\"ignoreme31\"}",
+                "{\"eventType\" : \"event-32\", \"desc\":\"ignoreme32\"}"
         );
 
-        googlePubsubEmitter.emitEvents(events);
+        int i = 1;
+        for (String event : events) {
+            googlePubsubEmitter.emitEvent(i, event).get();
+            i++;
+        }
+
+        Util.writeToFile("pubsub_perf_async.csv", googlePubsubEmitter.getTimeMap());
 
         googlePubsubEmitter.stop();
     }
