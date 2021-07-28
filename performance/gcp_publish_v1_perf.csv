@@ -9,3 +9,6 @@ timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success
 1627495847861,120,HTTP Request,200,,Thread Group 1-8,text,true,,175,180,2,2,http://localhost:8080/v1/event/publish,120,0,0
 1627495847961,99,HTTP Request,200,,Thread Group 1-9,text,true,,174,180,2,2,http://localhost:8080/v1/event/publish,99,0,1
 1627495848057,108,HTTP Request,200,,Thread Group 1-10,text,true,,175,180,1,1,http://localhost:8080/v1/event/publish,108,0,1
+1627496519104,411,HTTP Request,200,,Thread Group 1-1,text,true,,175,180,1,1,http://localhost:8080/v1/event/publish,408,0,37
+1627496537924,113,HTTP Request,200,,Thread Group 1-1,text,true,,175,180,1,1,http://localhost:8080/v1/event/publish,113,0,0
+1627496559416,118,HTTP Request,200,,Thread Group 1-1,text,true,,175,180,1,1,http://localhost:8080/v1/event/publish,118,0,2
