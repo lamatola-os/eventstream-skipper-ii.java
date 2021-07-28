@@ -5,7 +5,8 @@ import com.google.api.core.ApiFutureCallback;
 import com.google.api.core.ApiFutures;
 import com.google.api.gax.batching.BatchingSettings;
 import com.google.api.gax.core.FixedCredentialsProvider;
-import com.google.api.gax.retrying.RetrySettings;
+import com.google.api.gax.core.FixedExecutorProvider;
+import com.google.api.gax.grpc.InstantiatingGrpcChannelProvider;
 import com.google.api.gax.rpc.ApiException;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.pubsub.v1.Publisher;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 @Data
 class PublisherConfig {
@@ -62,6 +64,9 @@ public class GooglePubsubEmitter {
 
         pubSubPublisher = Publisher.newBuilder(topicName)
                 .setCredentialsProvider(FixedCredentialsProvider.create(credentials))
+                .setExecutorProvider(FixedExecutorProvider.create(new ScheduledThreadPoolExecutor(4)))
+                .setChannelProvider(InstantiatingGrpcChannelProvider.newBuilder()
+                        .build())
 //                .setBatchingSettings(batchingSettings)
                 .build();
     }
@@ -78,7 +83,7 @@ public class GooglePubsubEmitter {
         }
     }
 
-    public CompletableFuture<String> emitEvent(int id, String message) throws InterruptedException, java.util.concurrent.ExecutionException {
+    public CompletableFuture<String> emitEvent(int id, String message) {
         ByteString data = ByteString.copyFromUtf8(message);
         PubsubMessage pubsubMessage = PubsubMessage.newBuilder().setData(data).build();
 
@@ -87,9 +92,11 @@ public class GooglePubsubEmitter {
 
         CompletableFuture<String> f = new CompletableFuture<>();
 
+        // @see org.springframework.cloud.gcp.pubsub.core.publisher.PubSubPublisherTemplate#publish
+
         ApiFutures.addCallback(
                 messageIdFuture,
-                new ApiFutureCallback<>() {
+                new ApiFutureCallback<String>() {
 
                     @Override
                     public void onFailure(Throwable throwable) {
@@ -106,15 +113,17 @@ public class GooglePubsubEmitter {
 
                     @Override
                     public void onSuccess(String messageId) {
-                        System.out.println("Published event ID: " + messageId);
+                        long timeTaken = System.currentTimeMillis() - start;
+                        timeMap.put(id, timeTaken);
+                        System.out.println("===================================");
+                        System.out.println("Published event ID: " + messageId + ", timeTaken: " + timeTaken);
+                        System.out.println("===================================");
                         f.complete(messageId);
                     }
-                },
-//                MoreExecutors.directExecutor());
-                MoreExecutors.newDirectExecutorService());
-
-        long timeTaken = System.currentTimeMillis() - start;
-        timeMap.put(id, timeTaken);
+                }
+                , MoreExecutors.directExecutor()
+//              ,  MoreExecutors.newDirectExecutorService()
+        );
 
 //        System.out.println("emittedMessageId: " + emittedMessageId + ", timeTaken:" + timeTaken + " ms");
         return f;

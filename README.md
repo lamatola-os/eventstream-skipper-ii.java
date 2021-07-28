@@ -25,21 +25,32 @@ Subscriber
 - use `subscriptionId` in consumer
 - subscriber - https://github.com/duwamish-os/eventstream-skipper-ii.java/blob/master/src/main/java/com/eventstream/googlepubsub/consumer/GooglePubsubConsumer.java
 
-Write Perf
+HTTP Write Perf
 ----------
 
 ```bash
-525 ms
-521 ms
-538 ms
-532 ms
-527 ms
-528 ms
-526 ms
-529 ms
-524 ms
-668 ms
+## google sdk
+curl --request POST localhost:8080/v1/publish
+## spring sdk
+
+1540 ms
+1071 ms
+1040 ms
+1040 ms
+1040 ms
+1040 ms
+1040 ms
+1040 ms
+1040 ms
+1040 ms
 ```
+
+Threads
+------
+
+![](GCP-Before_HttpCall-pub-sub-Threads.png)
+
+![](GCP-After_Http_pub-sub-Threads.png)
 
 pricing
 --------

@@ -3,17 +3,22 @@ package com.eventstream.googlepubsub.emitter;
 import com.eventstream.googlepubsub.util.Util;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
 public class EmitterApp {
 
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
+        Properties properties = readProperties("/application.properties");
+
+        var start = System.currentTimeMillis();
 
         final var config = new PublisherConfig(
-                "customer-support-61013",
-                "orders-streaming",
-                "src/main/resources/credentials.json"
+                properties.getProperty("spring.cloud.gcp.project-id"),
+                properties.getProperty("gcp.stream-name"),
+                properties.getProperty("gcp.credentials.location")
         );
 
         final GooglePubsubEmitter googlePubsubEmitter = new GooglePubsubEmitter(config);
@@ -55,12 +60,23 @@ public class EmitterApp {
 
         int i = 1;
         for (String event : events) {
-            googlePubsubEmitter.emitEvent(i, event).get();
+            googlePubsubEmitter.emitEvent(i, event);
             i++;
         }
 
-        Util.writeToFile("pubsub_perf_async.csv", googlePubsubEmitter.getTimeMap());
+        Util.writeToFile("pubsub_perf_async_1.csv", googlePubsubEmitter.getTimeMap());
 
         googlePubsubEmitter.stop();
+        System.out.println("===============================================");
+        System.out.println("total: " + (System.currentTimeMillis() - start));
+        System.out.println("===============================================");
+    }
+
+    private static Properties readProperties(String file) throws IOException {
+        Properties prop = new Properties();
+        InputStream stream = EmitterApp.class.getClassLoader().getResourceAsStream(file);
+        prop.load(stream);
+
+        return prop;
     }
 }
