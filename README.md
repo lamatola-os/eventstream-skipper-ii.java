@@ -1,6 +1,9 @@
 eventstream-skipper (googlepubsub)
 -------------------
 
+- Java pipeline to stream events to Google Pub sub using Spring, PubSub SDK
+- JMeter perf is included in 
+
 eventstream-googlepubsub
 -----------------------
 
@@ -48,9 +51,9 @@ curl --request POST localhost:8080/v1/publish
 Threads
 ------
 
-![](GCP-Before_HttpCall-pub-sub-Threads.png)
+![](performance/GCP-Before_HttpCall-pub-sub-Threads.png)
 
-![](GCP-After_Http_pub-sub-Threads.png)
+![](performance/GCP-After_Http_pub-sub-Threads.png)
 
 pricing
 --------

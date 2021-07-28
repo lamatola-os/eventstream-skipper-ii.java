@@ -11,7 +11,7 @@ import java.util.concurrent.ExecutionException;
 public class EmitterApp {
 
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
-        Properties properties = readProperties("/application.properties");
+        Properties properties = Util.readProperties("/application.properties");
 
         var start = System.currentTimeMillis();
 
@@ -64,7 +64,7 @@ public class EmitterApp {
             i++;
         }
 
-        Util.writeToFile("pubsub_perf_async_1.csv", googlePubsubEmitter.getTimeMap());
+        Util.writeToFile("performance/pubsub_perf_async_1.csv", googlePubsubEmitter.getTimeMap());
 
         googlePubsubEmitter.stop();
         System.out.println("===============================================");
@@ -72,11 +72,4 @@ public class EmitterApp {
         System.out.println("===============================================");
     }
 
-    private static Properties readProperties(String file) throws IOException {
-        Properties prop = new Properties();
-        InputStream stream = EmitterApp.class.getClassLoader().getResourceAsStream(file);
-        prop.load(stream);
-
-        return prop;
-    }
 }

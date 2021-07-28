@@ -2,7 +2,9 @@ package com.eventstream.googlepubsub.util;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
+import java.util.Properties;
 
 public class Util {
     public static void writeToFile(String file, Map<Integer, Long> data) throws IOException {
@@ -18,5 +20,13 @@ public class Util {
 
         out.flush();
         out.close();
+    }
+
+    public static Properties readProperties(String file) throws IOException {
+        Properties prop = new Properties();
+        InputStream stream = Util.class.getClassLoader().getResourceAsStream(file);
+        prop.load(stream);
+
+        return prop;
     }
 }
