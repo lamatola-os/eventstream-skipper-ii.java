@@ -65,8 +65,7 @@ public class GooglePubsubEmitter {
         pubSubPublisher = Publisher.newBuilder(topicName)
                 .setCredentialsProvider(FixedCredentialsProvider.create(credentials))
                 .setExecutorProvider(FixedExecutorProvider.create(new ScheduledThreadPoolExecutor(4)))
-                .setChannelProvider(InstantiatingGrpcChannelProvider.newBuilder()
-                        .build())
+                .setChannelProvider(InstantiatingGrpcChannelProvider.newBuilder().build())
 //                .setBatchingSettings(batchingSettings)
                 .build();
     }

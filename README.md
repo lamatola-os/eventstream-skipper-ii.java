@@ -19,6 +19,47 @@ Publisher
 
 - create stream (`topic`)
 - create IAM role with write access and use it in publisher
+```bash
+pubsub.schemas.attach
+pubsub.schemas.create
+pubsub.schemas.delete
+pubsub.schemas.get
+pubsub.schemas.getIamPolicy
+pubsub.schemas.list
+pubsub.schemas.setIamPolicy
+pubsub.schemas.validate
+pubsub.snapshots.create
+pubsub.snapshots.delete
+pubsub.snapshots.get
+pubsub.snapshots.getIamPolicy
+pubsub.snapshots.list
+pubsub.snapshots.seek
+pubsub.snapshots.setIamPolicy
+pubsub.snapshots.update
+pubsub.subscriptions.consume
+pubsub.subscriptions.create
+pubsub.subscriptions.delete
+pubsub.subscriptions.get
+pubsub.subscriptions.getIamPolicy
+pubsub.subscriptions.list
+pubsub.subscriptions.setIamPolicy
+pubsub.subscriptions.update
+pubsub.topics.attachSubscription
+pubsub.topics.create
+pubsub.topics.delete
+pubsub.topics.detachSubscription
+pubsub.topics.get
+pubsub.topics.getIamPolicy
+pubsub.topics.list
+pubsub.topics.publish
+pubsub.topics.setIamPolicy
+pubsub.topics.update
+pubsub.topics.updateTag
+resourcemanager.projects.get
+serviceusage.quotas.get
+serviceusage.services.get
+serviceusage.services.list
+```  
 - publisher - https://github.com/duwamish-os/eventstream-skipper-ii.java/blob/master/src/main/java/com/eventstream/googlepubsub/emitter/GooglePubsubEmitter.java
 
 Subscriber
@@ -100,3 +141,6 @@ java.lang.IllegalAccessException: class io.grpc.netty.shaded.io.netty.util.inter
 	at com.eventstream.googlepubsub.emitter.GooglePubsubEmitter.<init>(GooglePubsubEmitter.java:48)
 	at com.eventstream.googlepubsub.emitter.EmitterApp.main(EmitterApp.java:15)
 ```
+
+- https://stackoverflow.com/a/58250507/432903
+- https://github.com/googleapis/java-pubsub/issues/27

@@ -3,7 +3,6 @@ package com.eventstream.googlepubsub.emitter;
 import com.eventstream.googlepubsub.util.Util;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
@@ -11,7 +10,7 @@ import java.util.concurrent.ExecutionException;
 public class EmitterApp {
 
     public static void main(String[] args) throws IOException, ExecutionException, InterruptedException {
-        Properties properties = Util.readProperties("/application.properties");
+        Properties properties = Util.readProperties("application.properties");
 
         var start = System.currentTimeMillis();
 

@@ -1,17 +1,11 @@
 package com.eventstream.googlepubsub.consumer;
 
-import com.google.cloud.pubsub.v1.AckReplyConsumer;
-import com.google.cloud.pubsub.v1.MessageReceiver;
-import com.google.pubsub.v1.PubsubMessage;
+import com.eventstream.googlepubsub.consumer.api.Event;
 
-public class MyEventListener implements MessageReceiver {
+public class MyEventListener extends GcpPubSubEventListener {
 
     @Override
-    public void receiveMessage(PubsubMessage message, AckReplyConsumer consumer) {
-
-        System.out.println("received event: " +
-                message.getMessageId() + " ~> " + message.getData().toStringUtf8());
-        consumer.ack();
-
+    public void onEvent(Event event) {
+        System.out.println("received event: " + event.getId() + " ~> " + event.getPayload());
     }
 }
