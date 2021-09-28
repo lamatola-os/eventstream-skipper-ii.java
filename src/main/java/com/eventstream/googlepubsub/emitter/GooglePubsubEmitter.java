@@ -101,8 +101,9 @@ public class GooglePubsubEmitter {
                     public void onFailure(Throwable throwable) {
                         if (throwable instanceof ApiException) {
                             ApiException apiException = ((ApiException) throwable);
-                            System.out.println(apiException.getStatusCode().getCode());
-                            System.out.println(apiException.isRetryable());
+                            System.out.println("Failed error code: " + apiException.getStatusCode());
+                            System.out.println("Failed error code: " + apiException.getStatusCode().getCode());
+                            System.out.println("Failed error retryable?: " + apiException.isRetryable());
                         }
                         //FIXME send alert
                         System.out.println("Error publishing message : " + message);
