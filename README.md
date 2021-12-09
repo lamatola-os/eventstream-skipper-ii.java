@@ -89,6 +89,20 @@ curl --request POST localhost:8080/v1/publish
 1040 ms
 ```
 
+Connections
+--
+
+```bash
+12:09:46.933 [grpc-nio-worker-ELG-1-2] DEBUG i.g.n.s.i.n.handler.ssl.SslHandler - [id: 0x438d90fe, L:/172.23.16.60:64014 - R:pubsub.googleapis.com/172.217.4.202:443] HANDSHAKEN: protocol:TLSv1.3 cipher suite:TLS_AES_128_GCM_SHA256
+12:09:46.937 [grpc-nio-worker-ELG-1-2] DEBUG i.g.n.s.i.g.netty.NettyClientHandler - [id: 0x438d90fe, L:/172.23.16.60:64014 - R:pubsub.googleapis.com/172.217.4.202:443] OUTBOUND SETTINGS: ack=false settings={ENABLE_PUSH=0, MAX_CONCURRENT_STREAMS=0, INITIAL_WINDOW_SIZE=1048576, MAX_HEADER_LIST_SIZE=8192}
+12:09:46.939 [grpc-nio-worker-ELG-1-2] DEBUG i.g.n.s.i.g.netty.NettyClientHandler - [id: 0x438d90fe, L:/172.23.16.60:64014 - R:pubsub.googleapis.com/172.217.4.202:443] OUTBOUND WINDOW_UPDATE: streamId=0 windowSizeIncrement=983041
+12:09:47.015 [grpc-nio-worker-ELG-1-2] DEBUG i.g.n.s.i.g.netty.NettyClientHandler - [id: 0x438d90fe, L:/172.23.16.60:64014 - R:pubsub.googleapis.com/172.217.4.202:443] INBOUND SETTINGS: ack=false settings={MAX_CONCURRENT_STREAMS=100, INITIAL_WINDOW_SIZE=1048576, MAX_HEADER_LIST_SIZE=65536}
+12:09:47.016 [grpc-nio-worker-ELG-1-2] DEBUG i.g.n.s.i.g.netty.NettyClientHandler - [id: 0x438d90fe, L:/172.23.16.60:64014 - R:pubsub.googleapis.com/172.217.4.202:443] OUTBOUND SETTINGS: ack=true
+12:09:47.062 [grpc-nio-worker-ELG-1-2] DEBUG i.g.n.s.i.g.netty.NettyClientHandler - [id: 0x438d90fe, L:/172.23.16.60:64014 - R:pubsub.googleapis.com/172.217.4.202:443] INBOUND WINDOW_UPDATE: streamId=0 windowSizeIncrement=983041
+12:09:47.063 [grpc-nio-worker-ELG-1-2] DEBUG i.g.n.s.i.g.netty.NettyClientHandler - [id: 0x438d90fe, L:/172.23.16.60:64014 - R:pubsub.googleapis.com/172.217.4.202:443] INBOUND SETTINGS: ack=true
+12:09:47.066 [grpc-nio-worker-ELG-1-2] DEBUG i.g.n.s.i.g.netty.NettyClientHandler - [id: 0x438d90fe, L:/172.23.16.60:64014 - R:pubsub.googleapis.com/172.217.4.202:443] OUTBOUND HEADERS: streamId=3 headers=GrpcHttp2OutboundHeaders[:authority: pubsub.googleapis.com:443, :path: /google.pubsub.v1.Subscriber/StreamingPull, :method: POST, :scheme: https, content-type: application/grpc, te: trailers, user-agent: grpc-java-netty/1.39.0, x-goog-api-client: gl-java/12.0.2 gapic/1.113.5 gax/1.66.0 grpc/1.39.0, grpc-accept-encoding: gzip, authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IjM2YTBhZjAxODI4NWUyNmMwOTRlODgxYWM2ZWM4YzE1Nzk5OGRiZTgiLCJ0eXAiOiJKV1QifQ.eyJhdWQiOiJodHRwczovL3B1YnN1Yi5nb29nbGVhcGlzLmNvbS8iLCJleHAiOjE2Mzc2MTUzODcsImlhdCI6MTYzNzYxMTc4NywiaXNzIjoiYXdzLWF3YWNzLWluZ2VzdG9yLTc0NDdAYmJ5dXMtY3BsYXQtY3NhLXAwMS5pYW0uZ3NlcnZpY2VhY2NvdW50LmNvbSIsInN1YiI6ImF3cy1hd2Fjcy1pbmdlc3Rvci03NDQ3QGJieXVzLWNwbGF0LWNzYS1wMDEuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20ifQ.ZJlRGULrMqQsykFnJlVGRN1JNkKsZwCOlUFolI6CaWaLM0uZ2zZNiXm8t0-gqISxBUpV5XsoTUr1ryw-JdPoIvB8PN4Os3rQuwcSmcQeVxUdsSM827ddvJp9UqUP1e9JOVk4EL51wbXWMJJG2KR4S3mDmsALU_RE16VYAYcvOHjghVkK4QwnUbaKkKsEbmzvN1zCDlO81_1Zq8VJ7Qbuzzb09vEtis74fZkxSkBErH2DDaNf2wQlzi9CzMZ7Cv2CH_UKOI62YV7_S7DaAK4ngJefB-AMqIotEeKIl0_iSdOY3tPo4bylP1uNzaDJpcsflGDa9-PkqR-puG_DOXAu8A] streamDependency=0 weight=16 exclusive=false padding=0 endStream=false
+```
+
 Threads
 ------
 

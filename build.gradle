@@ -1,0 +1,84 @@
+buildscript {
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+    dependencies {
+        classpath group: 'org.jfrog.buildinfo', name: 'build-info-extractor-gradle', version: '4.24.16'
+    }
+}
+
+plugins {
+    id 'application'
+    id 'org.springframework.boot' version '2.4.5'
+}
+
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'io.spring.dependency-management'
+
+group 'com.eventstream.googlepubsub'
+description 'EventStream'
+
+version = project.findProperty('projectVersion') ?: '1.0-SNAPSHOT'
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+processResources {
+    expand(project.properties)
+}
+
+dependencies {
+
+    compileOnly(group: 'org.projectlombok', name: 'lombok', version: '1.18.20')
+    runtimeOnly group: 'org.apache.logging.log4j', name: 'log4j-layout-template-json', version: '2.14.1'
+
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.3.1'
+
+    implementation(group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.4')
+    implementation(group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.11.4')
+
+    implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus', version: '1.7.4'
+
+    implementation group: 'com.google.cloud', name: 'google-cloud-pubsub', version: '1.115.0'
+
+    implementation(group: 'org.springframework.boot', name: 'spring-boot', version: '2.5.0')
+    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '2.5.0')
+    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.5.0') {
+        exclude module: "spring-boot-starter-logging"
+        exclude module: "logback-classic"
+    }
+
+    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.5.0') {
+        exclude module: "spring-boot-starter-logging"
+        exclude module: "logback-classic"
+    }
+
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter-pubsub', version: '1.2.8.RELEASE'
+    implementation group: 'org.springframework.integration', name: 'spring-integration-core', version: '5.5.6'
+}
+
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << '-Xlint:unchecked'
+    options.deprecation = true
+}
+
+test {
+    useJUnitPlatform()
+}
+
